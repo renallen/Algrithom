@@ -1,0 +1,743 @@
+﻿
+public static void main(String[] args) {
+		int[] array={3,2,4,5,6,89,54};
+		if(array!=null)
+		quick_sort(array,0,array.length-1);
+	}
+
+	private static void quick_sort(int[] array, int i, int j) {
+			if(array==null || i>=j)return ;
+			int p=partition(array,i,j);
+			quick_sort(array, i, p-1);
+			quick_sort(array, p+1, j);
+	}
+
+	private static int partition(int[] array, int begin, int end) {
+		int first=array[begin];
+		int i=begin,j=end;
+		while(i<j){
+			while(array[i]<=first && i<end)i++;
+			while(array[j]>first && j>=begin)j--;
+			if(i<j){
+				array[i]=array[i]^array[j];
+				array[j]=array[i]^array[j];
+				array[i]=array[i]^array[j];
+			}
+		}
+		if(j!=begin){
+			array[j]=array[begin]^array[j];
+			array[begin]=array[begin]^array[j];
+			array[j]=array[begin]^array[j];
+		}
+		System.out.println(Arrays.toString(array));
+		return j;
+	}
+
+---------------------------------------------------------------------------------
+public static void main(String[] args) {
+		int[] array={2,3,56,45,1,22,2};
+		buildHaep(array);
+		System.out.println(Arrays.toString(array));
+		heap_sort(array);
+		System.out.println(Arrays.toString(array));
+	}
+	private static void heap_sort(int[] array) {
+		if(array==null || array.length<=1)return ;
+		for(int i=array.length-1;i>=1;i--){
+			swap(array, 0, i);
+			adjust(array, i, 0);
+		}
+		
+	}
+	private static void buildHaep(int[] array) {
+		if (array == null || array.length <= 1) {  
+            return;  
+        } 
+		int half=array.length/2;
+		for(int i=half;i>=0;i--){
+			adjust(array,array.length,i);
+		}
+	}
+	private static void adjust(int[] array, int length, int index) {
+		int tmp=array[index];
+		for(int i=index*2+1;i<length-1;i=2*i+1){
+			if(i<length && array[i]<array[i+1])i++;
+			if(tmp>=array[i])break;
+			else {
+				array[index]=array[i];
+				index=i;
+			}
+		}
+		array[index]=tmp;
+		
+	}
+	private static void swap(int[] array, int index1, int index2) {
+		array[index1]=array[index1]^array[index2];
+		array[index2]=array[index1]^array[index2];
+		array[index1]=array[index1]^array[index2];
+	}
+
+
+---------------------------------------------------------------------------------
+
+	/**
+	 * 
+	 * 归并排序
+	 */
+	public static void main(String[] args) {
+		int[] array={2,3,56,45,1,22,2};
+		Merge_Sort(array);
+		System.out.println(Arrays.toString(array));
+		
+	}
+
+	private static void Merge_Sort(int[] array) {
+			sort(array,0,array.length-1);
+	}
+
+	private static void sort(int[] array, int left, int right) {
+		if(left>=right)return;
+		int center=(left+right)/2;
+		sort(array, left, center);
+		sort(array, center+1, right);
+		merge(array,left,center,right);
+	}
+
+	private static void merge(int[] array, int left, int center, int right) {
+			int[] tmp=new int[array.length];
+			int mid=center+1;
+			int index=left;
+			int i=left;
+			//将小数组先放入tmp中
+			while(left<=center && mid<=right){
+				if(array[left]<=array[mid])tmp[index++]=array[left++];
+				else {
+					tmp[index++]=array[mid++];
+				}
+			}
+			while(mid<=right)tmp[index++]=array[mid++];
+			while(left<=center)tmp[index++]=array[left++];
+			while(i<=right)array[i]=tmp[i++];
+	}
+
+
+
+---------------------------------------------------------------------------------
+	private static void Inser_sort(int[] array) {
+			for(int i=1;i<array.length;i++){
+				for(int j=i;j>0;j--){
+					if(array[j]<array[j-1]){
+						swap(array,j);
+					}
+				}
+			}
+	}
+
+	private static void swap(int[] array, int j) {
+		array[j]=array[j]^array[j-1];
+		array[j-1]=array[j]^array[j-1];
+		array[j]=array[j]^array[j-1];
+	}
+
+---------------------------------------------------------------------------------
+	private static void Select_Sort(int[] array) {
+		for(int i=0;i<array.length-1;i++){
+			int index=i;
+			int tmp=0;
+			for(int j=i+1;j<array.length;j++){
+				if(array[j]<array[index]){
+					index=j;
+				}
+			}
+			tmp=array[index];
+			array[index]=array[i];
+			array[i]=tmp;
+		}
+	}
+
+
+	private static void Select_Sort(int[] array) {
+		for(int i=0;i<array.length-1;i++){
+			int index=i;
+		
+			for(int j=i+1;j<array.length;j++){
+				if(array[j]<array[index]){
+					index=j;
+				}
+			}
+			if(array[index]!=array[i])
+			swap(array,index,i);
+			System.out.println(Arrays.toString(array));
+		}
+	}
+
+	private static void swap(int[] array, int i, int j) {
+		array[i]=array[i]^array[j];
+		array[j]=array[i]^array[j];
+		array[i]=array[i]^array[j];
+	}
+---------------------------------------------------------------------------------
+	private static void Bubble_Sort(int[] array) {
+		
+			for(int i=0;i<array.length-1;i++){
+				boolean flag=false;
+				for(int j=array.length-1;j>i;j--){
+					if(array[j]<array[j-1]){
+						int tmp=array[j];
+						array[j]=array[j-1];
+						array[j-1]=tmp;
+						flag=true;
+					}
+				}
+				if(!flag)break;
+			}
+	}
+--------------------------------------------------------------------------------------
+private static void Shell_Sort(int[] array) {
+		int incre=array.length;
+		while(incre>1){
+			incre/=2;
+			//第一个1~incre范围
+			for(int k=0;k<incre;k++){
+				//本次循环构建incre个子序列 k+incre~length,步长为incre
+				for(int i=k+incre;i<array.length;i+=incre){
+					//本次循环是对各个子序列进行排序
+					System.out.println(Arrays.toString(array));
+					for(int j=i;j>k;j-=incre){
+						if(array[j]<array[j-incre]){
+							int tmp=array[j];
+							array[j]=array[j-incre];
+							array[j-incre]=tmp;
+						}else {
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+--------------------------------------------------------------------------------------
+private static void Radix_Sort(int[] array,int radix,int d ) {
+		int[] tmp=new int[array.length];
+		int[] buckets=new int[radix];
+		
+		for(int i=0,rate=1;i<d;i++){
+			Arrays.fill(buckets, 0);
+			System.arraycopy(array, 0, tmp, 0, array.length);
+			for(int j=0;j<array.length;j++){
+				int subKey=(tmp[j]/rate)%radix;
+				buckets[subKey]++;
+			}
+			for(int j=1;j<radix;j++){
+				buckets[j]=buckets[j]+buckets[j-1];
+			}
+			for (int m = array.length - 1; m >= 0; m--) {  
+                int subKey = (tmp[m] / rate) % radix;  
+                array[--buckets[subKey]] = tmp[m];  
+            }  
+            rate *= radix;  
+		}
+	}
+--------------------------------------------------------------------------------------
+private static int[] Count_Sort(int[] array) {
+		int max=array[0];
+		for(int i=1;i<array.length;i++){
+			if(array[i]>max)max=array[i];
+		}
+		System.out.println(max);
+		int[] C=new int[max+1];
+		int length=array.length,sum=0;
+		int[] B=new int[length];
+		for(int i=0;i<length;i++){
+			C[array[i]]+=1;
+		}
+		for(int i=0;i<max+1;i++){
+			sum+=C[i];
+			C[i]=sum;
+		}
+		for(int i=length-1;i>=0;i--){
+			B[C[array[i]]-1]=array[i];
+			C[array[i]]--;
+		}
+		return B;
+	}
+
+--------------------------------------------------------------------------------------
+private static void Bucket_Sort(int[] array) {
+			//1、找出最大值最小值；
+		int max=array[0],min=array[0];
+		for(int i=1;i<array.length;i++){
+			if(array[i]>max)max=array[i];
+			else if(array[i]<min)min=array[i];
+		}
+		//建桶
+		int Bucketnum=(max-min)/array.length+1;
+		ArrayList<ArrayList<Integer>>bucketArr=new ArrayList<>(Bucketnum);
+		for(int i=0;i<Bucketnum;i++){
+			bucketArr.add(new ArrayList<Integer>());
+		}
+		//把数放入桶中
+		for(int i=0;i<array.length;i++){
+				int index=(array[i]-min)/array.length;
+				bucketArr.get(index).add(array[i]);
+		}
+		//对桶分别排序
+		int j=0;
+		for(int i=0;i<bucketArr.size();i++){
+			Collections.sort(bucketArr.get(i));
+			if(bucketArr.get(i).size()!=0){
+				for(int k=0;k<bucketArr.get(i).size();k++){
+					array[j++]=bucketArr.get(i).get(k);
+				}
+			}
+		}
+	}
+--------------------------------------------------------------------------------------
+
+二分查找：
+
+	private static int binarySearch(int[] array, int num) {
+		int left=0,right=array.length-1;
+		while(left<right){
+			int mid=left+(right-left)>>1;
+			if(array[mid]>num)right=mid-1;
+			else if (array[mid]<num) {
+				left=mid+1;
+			}else {
+				return mid;
+			}
+		}
+		return -1;
+	}
+--------------------------------------------------------------------------------------
+分块查找：块间有序（二分查找）、快内无序（顺序查找）
+--------------------------------------------------------------------------------------
+public static void main(String[] args) {
+		int[] array={1,2,3,4,5,6,7,8,9};
+		//Shell_Sort(array);
+		TreeNode root=init(array);
+		TreeNode node=new TreeNode(10);
+		insert(root, node);
+		TreeNode s=search(root,6);
+		delete(root,s);
+		
+				
+		
+	}
+
+	private static void delete(TreeNode root, TreeNode s) {
+			if(root==null)return;
+			TreeNode p=null;
+			while(root!=null){
+				if(s.val<root.val){
+					p=root;
+					root=root.left;
+				}else if (s.val>root.val) {
+					p=root;
+					root=root.right;
+				}else {
+					
+					if(root.left==null && root.right==null){//删除为叶子节点
+						if(p==null)root=null;
+						else {
+							if(p.left==root)p.left=null;
+							else if(p.right==root)p.right=null;
+						}
+					}
+					else if (root.left!=null && root.right==null) {//只有左孩子
+						if(p==null)root=root.left;
+						else {
+							if(p.left==root)p.left=root.left;
+							else if (p.right==root)p.right=root.left;
+						}
+					}
+					else if (root.left==null && root.right!=null) {//只有右孩子
+						if(p==null)root=null;
+						else {
+							if(p.left==root)p.left=root.right;
+							else if (p.right==root)p.right=root.right;
+						}
+					}
+					else{//左右都有,找到右子树最小得节点与root交换删除该节点
+						TreeNode minR=root.right;
+						TreeNode minRP=null;
+						while(minR.left!=null){
+							minRP=minR;
+							minR=minR.left;
+						}
+						int tmp=root.val;
+						root.val=minR.val;
+						minR.val=tmp;
+						if(minRP.left==minR)  
+                            minRP.left=minR.right;  
+                        else if(minRP.right==minR)  
+                            minRP.right=minR.right;  
+						
+					}
+					
+				}
+				break;
+			}	
+	}
+
+	private static TreeNode search(TreeNode root, int i) {
+		if(root==null)return root;
+		if(root.val>i)return search(root.left, i);
+		else if (root.val<i) {
+			return search(root.right, i);
+		}
+		else {
+			return root;
+		}
+	}
+
+	private static TreeNode init(int[] array) {
+		TreeNode root=null;
+		for(int i=0;i<array.length;i++){
+			TreeNode node=new TreeNode(array[i]);
+			insert(root,node);
+		}
+		return root;
+		
+	}
+
+	private static void insert(TreeNode root, TreeNode node) {
+		if(root==null){
+			root=node;
+		}
+		TreeNode p=null;
+		while(root!=null){
+			p=root;
+			if(node.val<root.val)root=root.left;
+			else {
+				root=root.right;
+			}
+		}
+		if(node.val<p.val)p.left=node;
+		else if(node.val>p.val)p.right=node;
+	}
+--------------------------------------------------------------------------------------
+public class AVL<T extends Comparable<T>> {
+	private AVLNode<T> root;
+	class AVLNode <T extends Comparable<T>>{
+		 	T key;
+		 	int height;
+		 	AVLNode<T>left;
+		 	AVLNode<T>right;
+		 	public AVLNode(T key,AVLNode<T>left,AVLNode<T>right) {
+		 		this.key=key;
+		 		this.left=left;
+		 		this.right=right;
+		 		this.height=0;
+		 	}
+	}
+	public AVL() {
+		root=null;
+	}
+	public static void main(String[] args) {
+		int[] array={1,2,3,4,5,6,7,8,9};
+		AVL<Integer>tree=new AVL<>();
+		for(int i=0;i<array.length;i++){
+			tree.insert(array[i]);
+		}
+		tree.remove(6);
+	}
+	private int height(AVLNode<T> tree){
+		if(tree!=null){
+			return tree.height;
+		}
+		return 0;
+	}
+	private int max(int a,int b){
+		return a>b?a:b;
+	}
+	//遍历
+	private void preOrder(AVLNode<T>tree){
+		if(tree!=null){
+			System.out.println(tree.key);
+			preOrder(tree.left);
+			preOrder(tree.right);
+		}
+	}
+	private void inOrder(AVLNode<T>tree){
+		if(tree!=null){
+			inOrder(tree.left);
+			System.out.println(tree.key);
+			inOrder(tree.right);
+		}
+	}
+	private void postOrder(AVLNode<T>tree){
+		if(tree!=null){
+			inOrder(tree.left);
+			inOrder(tree.right);
+			System.out.println(tree.key);
+		}
+	}
+	
+	
+	
+	
+
+	//删除
+	private void remove(T i) {
+		AVLNode<T>z;
+		if((z=search(root,i))!=null)root=remove(root,i);
+	}
+	private AVLNode<T> remove(AVLNode<T> root, T i) {
+		return null;
+	}
+	//查找
+	private AVLNode<T> search(AVLNode<T> root, T i) {
+		if(root==null)return root;
+		int cmp=i.compareTo(root.key);
+		if(cmp<0)return search(root.left, i);
+		else if (cmp>0)return search(root.right, i);
+		else return root;
+	}
+	private AVLNode<T> search1(AVLNode<T> root, T i) {
+		while(root!=null){
+			int cmp=i.compareTo(root.key);
+			if(cmp<0)root=root.left;
+			else if (cmp>0)root=root.right;
+			else return root;
+		}
+		return root;
+	}
+	//插入
+	private void insert(T i) {
+		insert(root,i);
+	}
+	private AVLNode<T> insert(AVLNode<T> root, T i) {
+			if(root==null){
+				root=new AVLNode<T>(i, null, null);
+				if(root==null)return null;
+			}
+			else {
+				int cmp=i.compareTo(root.key);
+				if(cmp<0){
+					root.left=insert(root.left, i);
+					if(height(root.left)-height(root.right)==2){
+						if(i.compareTo(root.left.key)<0)root=LL(root);
+						else root=LR(root);
+					}
+				}else if (cmp>0) {
+					root.right=insert(root.right, i);
+					if(height(root.right)-height(root.left)==2){
+						if(i.compareTo(root.left.key)>0)root=RR(root);
+						else root=RL(root);
+					}
+				}else {
+					System.out.println("相同节点");
+				}
+			}
+			root.height=max(height(root.left), height(root.right))+1;
+			return root;
+	}	
+	//销毁
+	private void destroy(AVLNode<T> root){
+		
+	}
+	//打印输出
+	private void print(AVLNode<T>root){
+		
+	}
+}
+--------------------------------------------------------------------------------------
+package com.bob.Search;
+
+
+public class Btree <Key extends Comparable<Key>,Value>{
+	public static void main(String[] args) 
+	  {
+	    Btree<String, String> st = new Btree<String, String>();
+	 
+	    st.put("www.cs.princeton.edu", "128.112.136.12");
+	    st.put("www.cs.princeton.edu", "128.112.136.11");
+	    st.put("www.princeton.edu",  "128.112.128.15");
+	    st.put("www.yale.edu",     "130.132.143.21");
+	    st.put("www.simpsons.com",   "209.052.165.60");
+	    st.put("www.apple.com",    "17.112.152.32");
+	    st.put("www.amazon.com",    "207.171.182.16");
+	    st.put("www.ebay.com",     "66.135.192.87");
+	    st.put("www.cnn.com",     "64.236.16.20");
+	    st.put("www.google.com",    "216.239.41.99");
+	    st.put("www.nytimes.com",   "199.239.136.200");
+	    st.put("www.microsoft.com",  "207.126.99.140");
+	    st.put("www.dell.com",     "143.166.224.230");
+	    st.put("www.slashdot.org",   "66.35.250.151");
+	    st.put("www.espn.com",     "199.181.135.201");
+	    st.put("www.weather.com",   "63.111.66.11");
+	    st.put("www.yahoo.com",    "216.109.118.65");
+	 
+	 
+	    System.out.println("cs.princeton.edu: " + st.get("www.cs.princeton.edu"));
+	    System.out.println("hardvardsucks.com: " + st.get("www.harvardsucks.com"));
+	    System.out.println("simpsons.com:   " + st.get("www.simpsons.com"));
+	    System.out.println("apple.com:     " + st.get("www.apple.com"));
+	    System.out.println("ebay.com:     " + st.get("www.ebay.com"));
+	    System.out.println("dell.com:     " + st.get("www.dell.com"));
+	    System.out.println();
+	 
+	    System.out.println("size:  " + st.size());
+	    System.out.println("height: " + st.height());
+	    System.out.println(st);
+	    System.out.println();
+	  }
+	//B-树的阶数
+	private static final int M=4;
+	private Node root;
+	private int height;
+	private int n;
+	private static final class Node{
+		private int m;
+		private Entry[] children=new Entry[M];
+		public Node(int k) {
+			m=k;
+		}
+	}
+	private static class Entry 
+	  {
+	    private Comparable key;
+	    private Object val;
+	    private Node next;   // helper field to iterate over array entries
+	    public Entry(Comparable key, Object val, Node next) 
+	    {
+	      this.key = key;
+	      this.val = val;
+	      this.next = next;
+	    }
+	  }
+	
+	public Btree() {
+		root=new Node(0);
+	}
+	public boolean isEmpy(){
+		return size()==0;
+	}
+	private int size() {
+		return n;
+	}
+	public int height(){
+		return height; 
+	}
+	public Value get(Key key){
+		if(key==null){
+			throw new NullPointerException("key must not be null");
+		}
+		return search(root,key,height);
+	}
+	private Value search(Node x, Key key, int height) {
+		Entry[] children=x.children;
+		if(height==0){
+			for(int j=0;j<x.m;j++){
+				if(eq(key,children[j].key))return (Value)children[j].val;
+			}
+		}else{
+			for(int j=0;j<x.m;j++){
+				if(j+1==x.m || less(key,children[j+1].key))return search(children[j].next, key, height-1);
+			}
+		}
+		return null;
+	}
+	public void put(Key key,Value val){
+		if(key==null)throw new NullPointerException("key must not be null");
+		Node node=insert(root,key,val,height);
+		n++;
+		if(node==null)return;
+		Node t=new Node(2);
+		t.children[0]=new Entry(root.children[0].key, null, root);
+		t.children[1] = new Entry(t.children[0].key, null, node);
+		root=t;
+		height++;
+	}
+	private Node insert(Node h, Key key, Value val, int height) {
+		int j;
+	    Entry t = new Entry(key, val, null);
+	    // external node外部结点，也是叶子结点，在树的最底层，存的是内容value
+	    if (height == 0) 
+	    {
+	      for (j = 0; j < h.m; j++) 
+	      {
+	        if (less(key, h.children[j].key)) 
+	        {
+	          break;
+	        }
+	      }
+	    }
+	 
+	    // internal node内部结点，存的是next地址
+	    else
+	    {
+	      for (j = 0; j < h.m; j++) 
+	      {
+	        if ((j+1 == h.m) || less(key, h.children[j+1].key)) 
+	        {
+	          Node u = insert(h.children[j++].next, key, val, height-1);
+	          if (u == null) 
+	          {
+	            return null;
+	          }
+	          t.key = u.children[0].key;
+	          t.next = u;
+	          break;
+	        }
+	      }
+	    }
+	 
+	    for (int i = h.m; i > j; i--)
+	    {
+	      h.children[i] = h.children[i-1];
+	    }
+	    h.children[j] = t;
+	    h.m++;
+	    if (h.m < M) 
+	    {
+	      return null;
+	    }
+	    else  return split(h);//分裂结点
+	}
+	private Node split(Node h) {
+		Node t = new Node(M/2);
+	    h.m = M/2;
+	    for (int j = 0; j < M/2; j++)
+	    {
+	      t.children[j] = h.children[M/2+j];     
+	    }
+	    return t;  
+	}
+	private boolean less(Comparable key1, Comparable key2) {
+		return key1.compareTo(key2)<0;
+	}
+	private boolean eq(Comparable key, Comparable key2) {
+		return key.compareTo(key2)==0;
+	}
+	
+	public String toString() 
+	  {
+	    return toString(root, height, "") + "\n";
+	  }
+	 
+	  private String toString(Node h, int ht, String indent) 
+	  {
+	    StringBuilder s = new StringBuilder();
+	    Entry[] children = h.children;
+	    if (ht == 0) 
+	    {
+	      for (int j = 0; j < h.m; j++) 
+	      {
+	        s.append(indent + children[j].key + " " + children[j].val + "\n");
+	      }
+	    }
+	    else {
+	      for (int j = 0; j < h.m; j++) {
+	        if (j > 0)s.append(indent + "(" + children[j].key + ")\n");
+	        s.append(toString(children[j].next, ht-1, indent + "   "));
+	      }
+	    }
+	    return s.toString();
+	  }
+	
+}
+
+
+
